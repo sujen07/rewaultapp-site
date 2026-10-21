@@ -2,32 +2,43 @@
 
 :root {
   color-scheme: light dark;
-  --bg: #ffffff;
-  --bg-alt: #f5f5f7;
+  /* Palette taken from the app icon (#5665a0 periwinkle) */
+  --bg: #fbfbfe;
+  --bg-alt: #f2f3fa;
   --card: #ffffff;
-  --text: #1d1d1f;
-  --text-2: #6e6e73;
-  --border: rgba(0, 0, 0, 0.1);
-  --accent: #059681;
-  --accent-soft: rgba(5, 150, 129, 0.1);
+  --text: #1b1e33;
+  --text-2: #5f6380;
+  --border: rgba(40, 48, 100, 0.1);
+  --accent: #4a57a8;
+  --accent-soft: rgba(86, 101, 160, 0.12);
   --mark-bg: #fff3c4;
   --mark-text: #6b4e00;
-  --hero-from: #10ba82;
-  --hero-to: #0d949e;
-  --radius: 14px;
+  --hero-bg: linear-gradient(180deg, #e9ebf8 0%, #f4f5fc 60%, var(--bg) 100%);
+  --hero-glow: rgba(110, 124, 200, 0.35);
+  --hero-text: #1b1e33;
+  --hero-text-2: #4d5272;
+  --icon-shadow: 0 18px 40px -8px rgba(58, 68, 130, 0.45), 0 2px 6px rgba(58, 68, 130, 0.2);
+  --card-shadow: 0 1px 2px rgba(30, 36, 80, 0.04), 0 8px 24px -12px rgba(30, 36, 80, 0.12);
+  --radius: 18px;
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", system-ui, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #000000;
-    --bg-alt: #111113;
-    --card: #1c1c1e;
-    --text: #f5f5f7;
-    --text-2: #a1a1a6;
-    --border: rgba(255, 255, 255, 0.14);
-    --accent: #34d399;
-    --accent-soft: rgba(52, 211, 153, 0.14);
+    --bg: #0b0d18;
+    --bg-alt: #141729;
+    --card: #161a2e;
+    --text: #eef0fa;
+    --text-2: #a3a8c4;
+    --border: rgba(170, 180, 240, 0.12);
+    --accent: #a4aef0;
+    --accent-soft: rgba(140, 152, 230, 0.16);
+    --hero-bg: linear-gradient(180deg, #1c2246 0%, #121530 60%, var(--bg) 100%);
+    --hero-glow: rgba(110, 124, 220, 0.45);
+    --hero-text: #f3f4fc;
+    --hero-text-2: #b4b9d8;
+    --icon-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    --card-shadow: none;
     --mark-bg: #4a3b0a;
     --mark-text: #ffe08a;
   }
@@ -74,50 +85,69 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-
 .site-header .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; }
 .brand { display: flex; align-items: center; gap: 10px; color: var(--text); font-weight: 600; font-size: 18px; }
 .brand:hover { text-decoration: none; }
-.brand img { width: 30px; height: 30px; border-radius: 7px; }
+.brand img { width: 30px; height: 30px; border-radius: 8px; box-shadow: 0 2px 6px rgba(58, 68, 130, 0.25); }
 .site-nav { display: flex; gap: 20px; font-size: 15px; }
 .site-nav a { color: var(--text-2); }
 .site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--text); text-decoration: none; }
 
 /* Hero */
 .hero {
-  background: linear-gradient(135deg, var(--hero-from), var(--hero-to));
-  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  background: var(--hero-bg);
+  color: var(--hero-text);
   text-align: center;
-  padding: 72px 0 80px;
+  padding: 88px 0 96px;
 }
-.hero-icon { width: 104px; height: 104px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18); }
-.hero h1 { font-size: clamp(36px, 7vw, 52px); line-height: 1.1; letter-spacing: -0.02em; margin: 24px 0 12px; }
-.hero p { font-size: clamp(18px, 3.2vw, 22px); max-width: 560px; margin: 0 auto 32px; opacity: 0.95; }
+/* Soft glow behind the icon */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  width: 640px;
+  height: 480px;
+  transform: translateX(-50%);
+  background: radial-gradient(closest-side, var(--hero-glow), transparent);
+  pointer-events: none;
+}
+.hero .wrap { position: relative; }
+.hero-icon { width: 120px; height: 120px; border-radius: 27px; box-shadow: var(--icon-shadow); }
+.hero h1 { font-size: clamp(40px, 7.5vw, 60px); line-height: 1.05; letter-spacing: -0.035em; font-weight: 700; margin: 28px 0 14px; }
+.hero p { font-size: clamp(18px, 3.2vw, 22px); line-height: 1.45; color: var(--hero-text-2); max-width: 520px; margin: 0 auto 36px; text-wrap: balance; }
 
 /* Replace with Apple's official "Download on the App Store" badge when the app is live. */
 .badge-placeholder {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 20px;
-  border-radius: 12px;
-  background: #000000;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: #11131f;
   color: #ffffff;
   font-size: 15px;
   font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 20px -8px rgba(20, 24, 60, 0.5);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
-.badge-placeholder:hover { text-decoration: none; }
+.badge-placeholder:hover { text-decoration: none; transform: translateY(-1px); box-shadow: 0 12px 24px -8px rgba(20, 24, 60, 0.55); }
 .badge-placeholder svg { width: 20px; height: 20px; }
 
 /* Features */
-.features { padding-block: 64px 72px; }
+.features { padding-block: 24px 88px; }
 .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
 .feature {
-  background: var(--bg-alt);
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
   padding: 24px;
 }
 .feature-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
   display: grid;
   place-items: center;
   background: var(--accent-soft);
@@ -156,6 +186,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-
 
 .card {
   background: var(--bg-alt);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 20px 24px;
   margin: 0 0 24px;
@@ -171,6 +202,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-
 @media (max-width: 520px) {
   body { font-size: 16px; }
   .site-nav { gap: 14px; font-size: 14px; }
-  .hero { padding: 56px 0 64px; }
+  .hero { padding: 64px 0 72px; }
+  .hero-icon { width: 104px; height: 104px; border-radius: 23px; }
   .doc { padding-block: 32px 48px; }
 }
